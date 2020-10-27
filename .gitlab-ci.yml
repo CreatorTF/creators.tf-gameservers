@@ -1,0 +1,67 @@
+stages:
+    - deploy
+
+
+.deploy_template: &deploy_template
+    stage: deploy
+    script:
+    - whoami
+    - git config --global core.filemode false
+    - git config --global user.email "support@creators.tf"
+    - git config --global user.name "Creators.TF Production"
+
+    # Clean all stv demos and log files over the age of 1 days / 1440 minutes. commented as we have a working demo uploader
+    # find /srv/daemon-data -iname '*.dem' -mmin +1400 -exec rm -v {} +
+    # find /srv/daemon-data -iname '*.log' -mmin +1400 -exec rm -v {} +
+    # Clean all user sprays older than 1 hour / 60 minutes
+    # find /srv/daemon-data/ -iname 'user_custom' -mmin +60 -exec rm -rfv {} +
+
+    - cd /srv/daemon-data
+    - >
+        for d in ./*/ ; do
+            cd "$d";
+            if [ -d ".git" ]; then
+
+                CI_LOCAL_REMOTE=`git remote get-url origin`;
+                CI_LOCAL_REMOTE="${CI_LOCAL_REMOTE##*@}";
+                CI_LOCAL_REMOTE=`echo $CI_LOCAL_REMOTE | tr : /`
+
+                CI_REMOTE_REMOTE="$CI_SERVER_HOST/$CI_PROJECT_PATH.git"
+                CI_REMOTE_REMOTE=`echo $CI_REMOTE_REMOTE | tr : /`
+
+                if [ "$CI_LOCAL_REMOTE" == "$CI_REMOTE_REMOTE" ]; then
+                    if [ `git rev-parse --abbrev-ref HEAD` == "$CI_COMMIT_REF_NAME" ]; then
+
+                        COMMIT_OLD=`git rev-parse HEAD`;
+                        git stash;
+                        git fetch origin $CI_COMMIT_REF_NAME;
+                        git reset --hard origin/$CI_COMMIT_REF_NAME;
+                        chmod 744 build.sh;
+                        chmod 744 start.sh;
+                        ./build.sh $COMMIT_OLD;
+                    fi;
+                fi;
+            fi;
+            cd ../;
+        done
+
+
+deploy-europe3:
+    tags:
+    - europe3
+    <<: *deploy_template
+
+deploy-oregon1:
+    tags:
+    - oregon1
+    <<: *deploy_template
+
+deploy-virginia1:
+    tags:
+    - virginia1
+    <<: *deploy_template
+
+deploy-russia2:
+    tags:
+    - russia2
+    <<: *deploy_template

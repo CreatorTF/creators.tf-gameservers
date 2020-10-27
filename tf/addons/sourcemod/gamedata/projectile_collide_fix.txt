@@ -1,0 +1,77 @@
+"Games"
+{
+	"tf"
+	{
+		"Signatures"
+		{
+			"CTFBall_Ornament::PipebombTouch"
+			{
+				"library" "server"
+				"linux" "@_ZN16CTFBall_Ornament13PipebombTouchEP11CBaseEntity"
+				"windows" "\x53\x8B\xDC\x83\xEC\x08\x83\xE4\xF0\x83\xC4\x04\x55\x8B\x6B\x04\x89\x6C\x24\x04\x8B\xEC\x81\xEC\xF8\x00\x00\x00\x56\x8B\xF1\x57\x8B\x7B\x08\x57"
+			}
+			
+			"CTFProjectile_EnergyRing::ProjectileTouch"
+			{
+				"library" "server"
+				"linux" "@_ZN24CTFProjectile_EnergyRing15ProjectileTouchEP11CBaseEntity"
+				"windows" "\x55\x8B\xEC\x81\xEC\xD0\x00\x00\x00\x53\x57\x8B\x7D\x08\x8B\xD9"
+			}
+			
+			"CTFProjectile_BallOfFire::RocketTouch"
+			{
+				"library" "server"
+				"linux" "@_ZN24CTFProjectile_BallOfFire11RocketTouchEP11CBaseEntity"
+				"windows" "\x55\x8B\xEC\x57\x8B\xF9\x80\xBF\x19\x05\x00\x00\x00\x0F\x2A\x2A\x2A\x2A\x2A\x56"
+			}
+		}
+		
+		"Functions"
+		{
+			"CTFBall_Ornament::PipebombTouch"
+			{
+				"signature" "CTFBall_Ornament::PipebombTouch"
+				"callconv" "thiscall"
+				"return" "void"
+				"this" "entity"
+				"arguments"
+				{
+					"other"
+					{
+						"type" "cbaseentity"
+					}
+				}
+			}
+			
+			"CTFProjectile_EnergyRing::ProjectileTouch"
+			{
+				"signature" "CTFProjectile_EnergyRing::ProjectileTouch"
+				"callconv" "thiscall"
+				"return" "void"
+				"this" "entity"
+				"arguments"
+				{
+					"other"
+					{
+						"type" "cbaseentity"
+					}
+				}
+			}
+			
+			"CTFProjectile_BallOfFire::RocketTouch"
+			{
+				"signature" "CTFProjectile_BallOfFire::RocketTouch"
+				"callconv" "thiscall"
+				"return" "void"
+				"this" "entity"
+				"arguments"
+				{
+					"other"
+					{
+						"type" "cbaseentity"
+					}
+				}
+			}
+		}
+	}
+}
